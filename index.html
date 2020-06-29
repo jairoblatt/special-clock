@@ -11,11 +11,7 @@
     body {
         display: block;
         min-height: 100vh;
-        
         background: #f8f8f8;
-        /* background: -webkit-linear-gradient(to right, #38ef7d, #11998e);
-        background: linear-gradient(to right, #38ef7d, #11998e); */
-
     }
 
     #clock {
@@ -25,36 +21,67 @@
         font-size: 80px;
         justify-content: center;
         align-items: center;
-         display: flex; 
+        display: flex;
     }
-    #current_date{
+
+    #current_date {
         justify-content: center;
         align-items: center;
-         display: flex; 
+        display: flex;
         font-family: 'Orbitron', sans-serif;
         color: #1C2833;
         font-size: 35px;
+    }
+
+    #coffee {
+        position: absolute;
+        z-index: 10000;
+        left: 72vw;
+        top: 41vh;
+        visibility: hidden;
+    }
+
+    .active {
+        visibility: visible !important;
+    }
+
+    #coffee>img {
+        height: 80px;
     }
 </style>
 
 <body>
     <div id="clock">
-        <div id="minutes">
-        </div>
+        <div id="minutes"></div>
     </div>
+    <div id="coffee"><img src="src/coffee.png" /></div>
     <div id="current_date"></div>
     <script>
+
         function showTime() {
+
             let date = new Date()
             let hours = date.getHours();
             let minutes = date.getMinutes()
             let seconds = date.getSeconds()
             let formatHours = convertFormat(hours)
+
             hours = checkTime(hours)
             hours = addZero(hours)
             minutes = addZero(minutes)
             seconds = addZero(seconds)
             document.getElementById('clock').innerHTML = `${hours} : ${minutes} : ${seconds} :  ${formatHours}`
+            itsTime()
+        }
+
+        function itsTime() {
+            let date = new Date()
+            let time = `${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
+            if ( time == 13370 ) {
+                return document.getElementById('coffee').classList.add('active');
+            } else {
+                return document.getElementById('coffee').classList.remove('active');
+            }
         }
 
         function convertFormat(time) {
@@ -86,25 +113,27 @@
         showTime()
         setInterval(showTime, 1000)
 
-        function showDate(){
+
+        function showDate() {
             let date = new Date()
             var day = date.getDate();
             var month = date.getMonth() + 1;
             var year = date.getFullYear();
 
             if (day < 10) {
-            day = '0' + day
+                day = '0' + day
             }
             if (month < 10) {
                 month = '0' + month
             }
-            
+
             var out = document.getElementById("current_date");
             out.innerHTML = day + "/" + month + "/" + year;
         }
         showDate()
         setInterval(showDate, 1000)
 
-        </script>
+    </script>
 </body>
+
 </html>
